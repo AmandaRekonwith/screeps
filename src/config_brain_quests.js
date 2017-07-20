@@ -2,7 +2,7 @@
 
 brain.handleQuests = function(transaction) {
   Memory.quests = Memory.quests || {};
-  for (let id in Memory.quests) {
+  for (let id of Object.keys(Memory.quests)) {
     let quest = Memory.quests[id];
     console.log(JSON.stringify(quest), quest.end - Game.time);
 
@@ -45,8 +45,7 @@ brain.getQuest = function(transaction, data) {
   return info;
 };
 
-brain.checkQuestForAcceptance = function(transaction) {
-  Memory.quests = Memory.quests || {};
+brain.getQuestFromTransactionDescription = function(description) {
   let data;
   try {
     data = JSON.parse(transaction.description);
@@ -73,6 +72,15 @@ brain.checkQuestForAcceptance = function(transaction) {
   }
   if (!data.id) {
     console.log('Quest transaction: No id');
+    return false;
+  }
+  return data;
+}
+
+brain.checkQuestForAcceptance = function(transaction) {
+  Memory.quests = Memory.quests || {};
+  let data = brain.getQuestFromTransactionDescription(transaction.description);
+  if (!data) {
     return false;
   }
   console.log('Yeah', JSON.stringify(data), JSON.stringify(transaction));

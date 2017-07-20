@@ -1,4 +1,4 @@
-# Quests (Planing Phase)
+# Quests
 
 To be able to interact and group up with other AIs on the server, there should
 be a way to gain reputation to define the level of cooperation.
